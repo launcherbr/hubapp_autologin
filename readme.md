@@ -41,6 +41,14 @@ Defina o tempo de expiração (padrão 72 horas).
 
 Salve as alterações.
 
+## 🧠 Redirecionamento Automático (Smart Redirect)
+
+O módulo identifica o contexto do e-mail enviado e ajusta o link de destino:
+* **E-mails de Fatura:** Redireciona direto para a visualização da fatura (`viewinvoice.php`).
+* **E-mails de Produto/Serviço:** Redireciona para os detalhes do serviço.
+* **E-mails de Domínio:** Redireciona para a gestão do domínio.
+* **Suporte:** Redireciona para o ticket correspondente.
+
 ## 📧 Uso nos Templates de E-mail
 O módulo injeta automaticamente a variável {$autologin_url}. Para usar, edite um template de e-mail e adicione o botão:
 
