@@ -69,7 +69,7 @@ Identidade: O token é vinculado ao UID específico do cliente.
 >
 > Garanta mais credibilidade e segurança para o seu sistema por apenas **R$ 250,00 anuais**.
 >
-> [**👉 CLIQUE AQUI PARA CONTRATAR AGORA**](https://licencas.digital/store/whmcs/whmcs-verificado)
+> [**👉 CLIQUE AQUI PARA CONTRATAR AGORA**](https://licencas.digital/store/whmcs/whmcs-validado)
 
 ---
 
