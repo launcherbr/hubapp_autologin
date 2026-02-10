@@ -71,4 +71,9 @@ Identidade: O token é vinculado ao UID específico do cliente.
 >
 > [**👉 CLIQUE AQUI PARA CONTRATAR AGORA**](https://licencas.digital/store/whmcs/whmcs-verificado)
 
-Desenvolvido para o ecossistema HubApp WABA.
+---
+
+## 🆘 Suporte e Documentação
+
+* **Desenvolvido por**: HubApp / Launcher & Co.
+* **Suporte**: [licencas.digital](https://licencas.digital)
