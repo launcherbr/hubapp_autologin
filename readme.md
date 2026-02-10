@@ -21,7 +21,7 @@ Módulo de Addon para **WHMCS 9.x** e **PHP 8.3** que permite a geração de lin
     └── addons/
         └── hubapp_autologin/
             └── hubapp_autologin.php # Configurações do Addon
-
+```
 
 ## 🛠️ Instalação
 Upload: Envie as pastas includes, modules e o arquivo autologin.php para o diretório raiz da sua instalação WHMCS.
@@ -43,10 +43,14 @@ Salve as alterações.
 ## 📧 Uso nos Templates de E-mail
 O módulo injeta automaticamente a variável {$autologin_url}. Para usar, edite um template de e-mail e adicione o botão:
 
+```text
+
 HTML
 <a href="{$autologin_url}" style="background:#28a745; color:#fff; padding:10px; text-decoration:none; border-radius:5px;">
     Acessar Área do Cliente sem Senha
 </a>
+
+```
 
 ## 🔒 Segurança (JWT)
 O sistema utiliza três camadas de validação:
