@@ -1,6 +1,7 @@
 # HubApp AutoLogin WHMCS 🛡️
 
-Módulo de Addon para **WHMCS 9.x** e **PHP 8.3** que permite a geração de links de acesso seguro (One-Click Login) utilizando **JSON Web Tokens (JWT)**. Ideal para integrar com notificações de E-mail e WhatsApp (Meta API / Z-PRO).
+Módulo de Addon para **WHMCS 9.x** e **PHP 8.3** que permite a geração de links de acesso seguro (One-Click Login) utilizando **JSON Web Tokens (JWT)**. 
+Ideal para integrar com notificações de E-mail e WhatsApp (Meta API / Z-PRO).
 
 ## 🚀 Funcionalidades
 
@@ -45,7 +46,6 @@ O módulo injeta automaticamente a variável {$autologin_url}. Para usar, edite 
 
 ```text
 
-HTML
 <a href="{$autologin_url}" style="background:#28a745; color:#fff; padding:10px; text-decoration:none; border-radius:5px;">
     Acessar Área do Cliente sem Senha
 </a>
