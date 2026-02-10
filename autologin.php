@@ -1,4 +1,8 @@
 <?php
+/**
+ * Gateway de Login com Redirecionamento Dinâmico
+ */
+
 require_once __DIR__ . '/init.php';
 
 use WHMCS\Database\Capsule;
@@ -10,28 +14,31 @@ $secretKey = Capsule::table('tbladdonmodules')->where('module', 'hubapp_autologi
 if (!$token || !$secretKey) die("Acesso inválido.");
 
 $parts = explode('.', $token);
-if (count($parts) !== 3) die("Token corrompido.");
+if (count($parts) !== 3) die("Token inválido.");
 
 list($header, $payload, $signature) = $parts;
 
-// Validação da Assinatura PHP 8.3
 $validSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(hash_hmac('sha256', "$header.$payload", $secretKey, true)));
 
-if ($signature !== $validSignature) die("Token de segurança inválido.");
+if ($signature !== $validSignature) die("Falha na assinatura de segurança.");
 
 $data = json_decode(base64_decode($payload), true);
 
-if ($data['exp'] < time()) die("Este link de login expirou.");
+if ($data['exp'] < time()) die("O link de acesso expirou.");
 
 try {
     $client = Client::find((int)$data['uid']);
-    $user = $client?->users()->first(); // PHP 8.x Nullsafe operator
+    $user = $client?->users()->first();
 
     if ($user) {
         \Auth::login($user);
-        header("Location: clientarea.php");
+        
+        // Redirecionamento para o destino gravado no token ou clientarea por padrão
+        $destination = $data['goto'] ?? 'clientarea.php';
+        
+        header("Location: " . $destination);
         exit;
     }
 } catch (\Exception $e) {
-    die("Erro ao autenticar.");
+    die("Erro na autenticação.");
 }
