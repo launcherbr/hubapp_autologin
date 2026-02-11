@@ -55,11 +55,9 @@ O módulo identifica o contexto do e-mail enviado e ajusta o link de destino:
 O módulo injeta automaticamente a variável {$autologin_url}. Para usar, edite um template de e-mail e adicione o botão:
 
 ```text
-
 <a href="{$autologin_url}" style="background:#28a745; color:#fff; padding:10px; text-decoration:none; border-radius:5px;">
     Acessar Área do Cliente sem Senha
 </a>
-
 ```
 
 ## 🔒 Segurança (JWT)
