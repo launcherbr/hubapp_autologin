@@ -14,7 +14,7 @@ Ideal para integrar com notificações de E-mail e WhatsApp (Meta API / Z-PRO).
 
 ```text
 /
-├── autologin.php                   # Gateway de processamento (Raiz do WHMCS)
+├── autologin.php # Gateway de processamento (Raiz do WHMCS)
 ├── includes/
 │   └── hooks/
 │       └── hubapp_autologin_vars.php # Hook para variáveis de e-mail
@@ -25,6 +25,7 @@ Ideal para integrar com notificações de E-mail e WhatsApp (Meta API / Z-PRO).
 ```
 
 ## 🛠️ Instalação
+
 Upload: Envie as pastas includes, modules e o arquivo autologin.php para o diretório raiz da sua instalação WHMCS.
 
 Ativação: - Vá em System Settings > Addon Modules.
@@ -50,6 +51,7 @@ O módulo identifica o contexto do e-mail enviado e ajusta o link de destino:
 * **Suporte:** Redireciona para o ticket correspondente.
 
 ## 📧 Uso nos Templates de E-mail
+
 O módulo injeta automaticamente a variável {$autologin_url}. Para usar, edite um template de e-mail e adicione o botão:
 
 ```text
@@ -61,6 +63,7 @@ O módulo injeta automaticamente a variável {$autologin_url}. Para usar, edite 
 ```
 
 ## 🔒 Segurança (JWT)
+
 O sistema utiliza três camadas de validação:
 
 Integridade: Se qualquer caractere do token for alterado, a assinatura SHA256 falha.
