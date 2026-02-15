@@ -1,10 +1,10 @@
 <?php
 /**
- * HubApp AutoLogin WHMCS - Gateway Estável
- * Foco: Login na Área do Cliente (Home)
+ * HubApp AutoLogin WHMCS - Gateway Clean
+ * Foco: Login direto e rápido na Home
  */
 
-ob_start(); // Previne erros de header
+ob_start(); // Previne erros de "headers already sent"
 
 require_once __DIR__ . '/init.php';
 
@@ -20,76 +20,59 @@ try {
         ->where('setting', 'autologin_key')
         ->value('value');
 
-    if (!$token || !$secretKey) throw new \Exception("Acesso inválido.");
+    if (!$token || !$secretKey) {
+        throw new \Exception("Acesso inválido.");
+    }
 
     // 2. Valida Assinatura JWT
-    list($header, $payload, $signature) = explode('.', $token);
+    $parts = explode('.', $token);
+    if (count($parts) !== 3) throw new \Exception("Token inválido.");
+
+    list($header, $payload, $signature) = $parts;
     $checkSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(hash_hmac('sha256', "$header.$payload", $secretKey, true)));
     
-    if (!hash_equals($checkSignature, $signature)) throw new \Exception("Link inválido ou corrompido.");
+    if (!hash_equals($checkSignature, $signature)) {
+        throw new \Exception("Assinatura inválida.");
+    }
 
     $data = json_decode(base64_decode($payload), true);
-    if ($data['exp'] < time()) throw new \Exception("Link expirado.");
+    if ($data['exp'] < time()) {
+        throw new \Exception("Link expirado.");
+    }
 
     $clientId = (int)$data['uid'];
 
-    // 3. Autenticação (Método Nativo WHMCS 9)
+    // 3. Autenticação Nativa WHMCS 9
     $userRelation = Capsule::table('tblusers_clients')->where('client_id', $clientId)->first();
 
     if ($userRelation && $user = \WHMCS\User\User::find($userRelation->auth_user_id)) {
         
-        // Limpeza preventiva
-        if (\Auth::user()) \Auth::logout();
+        // Limpa sessão anterior se existir
+        if (\Auth::user()) {
+            \Auth::logout();
+        }
 
         // Login Oficial
         \Auth::login($user);
 
-        // Fixação de Sessão (Essencial para persistência)
+        // Fixação de Sessão (Vital para WHMCS 9)
         Session::set("uid", $clientId);
         Session::set("user_id", $user->id);
         Session::set("upw", $user->password);
         
-        // Grava sessão imediatamente
+        // [IMPORTANTE] Força a escrita no disco antes do redirect
+        // Isso é o que faz funcionar no Nginx/Cloudflare sem precisar do JS
         session_write_close();
-        ob_end_clean();
-
-        // 4. Redirecionamento com Tela de Carregamento (Bypass de Cache/Proxy)
-        ?>
-        <!DOCTYPE html>
-        <html lang="pt-br">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Autenticando...</title>
-            <style>
-                body { font-family: sans-serif; background: #f8f9fa; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-                .loader { border: 4px solid #e9ecef; border-top: 4px solid #007bff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
-                .content { text-align: center; }
-                @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-            </style>
-        </head>
-        <body>
-            <div class="content">
-                <div class="loader" style="margin: 0 auto;"></div>
-                <h3 style="color: #555;">Acessando sua conta...</h3>
-            </div>
-            <script>
-                // Força o navegador a reconhecer o cookie antes de mudar de página
-                setTimeout(function() {
-                    window.location.href = "clientarea.php";
-                }, 1000); // 1 segundo de espera estratégica
-            </script>
-        </body>
-        </html>
-        <?php
+        
+        // Redirecionamento Direto (Sem tela de carregamento)
+        header("Location: clientarea.php");
         exit;
     }
     
     throw new \Exception("Usuário não encontrado.");
 
 } catch (\Exception $e) {
-    ob_end_clean();
-    // Redireciona para login limpo em caso de erro
+    // Em caso de erro, manda para o login normal
     header("Location: clientarea.php");
     exit;
 }
