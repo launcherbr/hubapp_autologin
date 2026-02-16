@@ -9,7 +9,7 @@ function hubapp_autologin_config() {
     return [
         'name' => 'HubApp AutoLogin WHMCS',
         'description' => 'Login automático seguro para Área do Cliente (Home).',
-        'version' => '1.0 Clean',
+        'version' => '1.0',
         'author' => 'HubApp',
         'fields' => [
             'autologin_key' => [
