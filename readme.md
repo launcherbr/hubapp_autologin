@@ -45,9 +45,7 @@ Salve as alterações.
 Você deve copiar e colar estes blocos conforme o objetivo do e-mail que está editando:
 
 ```
-<a href="{$autologin_url}" style="background:#28a745; color:#fff; padding:10px 20px; text-decoration:none; border-radius:5px; font-weight:bold; display:inline-block;">
-    Acessar Área do Cliente
-</a>
+<p>Para sua conveniência, você pode <a href="{$autologin_url}">clicar aqui para acessar sua conta</a> sem precisar digitar sua senha.</p>
 ```
 
 💡 Dicas Importantes:
