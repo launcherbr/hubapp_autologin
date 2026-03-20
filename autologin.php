@@ -56,6 +56,11 @@ try {
             \Auth::logout();
         }
 
+        // LIMPEZA PROFUNDA: Remove contatos e IDs presos na sessão do navegador (Evita tabelas vazias)
+        Session::delete('cid');
+        Session::delete('uid');
+        Session::delete('user_id');
+
         // Login Oficial
         \Auth::login($user);
 
